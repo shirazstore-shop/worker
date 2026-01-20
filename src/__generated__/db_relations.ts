@@ -49,3 +49,4 @@ export const devicesRelations = relations(devices, ({many}) => ({
 	orders: many(orders),
 }));
 
+
