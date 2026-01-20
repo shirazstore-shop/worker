@@ -12,25 +12,9 @@
 // ----------------------------------------------------------------
 
 import { relations } from "drizzle-orm/relations";
-import { packages, trackingEvents, orders, appUsers, devices } from "./db_schema";
-
-export const trackingEventsRelations = relations(trackingEvents, ({one}) => ({
-	package: one(packages, {
-		fields: [trackingEvents.packageId],
-		references: [packages.id]
-	}),
-	order: one(orders, {
-		fields: [trackingEvents.orderId],
-		references: [orders.id]
-	}),
-}));
-
-export const packagesRelations = relations(packages, ({many}) => ({
-	trackingEvents: many(trackingEvents),
-}));
+import { appUsers, orders, devices, trackingEvents } from "./db_schema";
 
 export const ordersRelations = relations(orders, ({one, many}) => ({
-	trackingEvents: many(trackingEvents),
 	appUser: one(appUsers, {
 		fields: [orders.userId],
 		references: [appUsers.id]
@@ -39,6 +23,7 @@ export const ordersRelations = relations(orders, ({one, many}) => ({
 		fields: [orders.deviceId],
 		references: [devices.id]
 	}),
+	trackingEvents: many(trackingEvents),
 }));
 
 export const appUsersRelations = relations(appUsers, ({many}) => ({
@@ -47,4 +32,11 @@ export const appUsersRelations = relations(appUsers, ({many}) => ({
 
 export const devicesRelations = relations(devices, ({many}) => ({
 	orders: many(orders),
+}));
+
+export const trackingEventsRelations = relations(trackingEvents, ({one}) => ({
+	order: one(orders, {
+		fields: [trackingEvents.orderId],
+		references: [orders.id]
+	}),
 }));
