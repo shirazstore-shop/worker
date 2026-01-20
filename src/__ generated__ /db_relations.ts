@@ -48,3 +48,4 @@ export const appUsersRelations = relations(appUsers, ({many}) => ({
 export const devicesRelations = relations(devices, ({many}) => ({
 	orders: many(orders),
 }));
+
